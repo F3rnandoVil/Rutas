@@ -114,7 +114,7 @@ class Ruta {
             let horaStr = Math.floor(minutosTotales / 60);
             let minutosStr = minutosTotales % 60;
     
-            rutaRecorrida += `Hora: ${horaStr < 10 ? `0${horaStr}` : horaStr}:${minutosStr < 10 ? `0${minutosStr}` : minutosStr} - Base: ${rutaActual.nombre}\n `;
+            rutaRecorrida += `Hora: ${horaStr < 10 ? `0${horaStr}` : horaStr}:${minutosStr < 10 ? `0${minutosStr}` : minutosStr} En la base: ${rutaActual.nombre}\n `;
     
             minutosTotales += rutaActual.siguiente.tiempo;
             minutos = minutosTotales % 60; 
