@@ -103,21 +103,26 @@ class Ruta {
           }
     }
     crearRuta(baseInicio, horaInicio, horaFin) {
-        let rutaActual = this.buscar(baseInicio);
-
+        let rutaActual = this.buscar(baseInicio);   
         let minutosTotales = horaInicio * 60;
         let rutaRecorrida = "";
         let minutos = 0;
-    
+
         while (minutosTotales < horaFin * 60 || (minutosTotales === horaFin * 60 && minutos === 0)) {
-  
+         
             let horaStr = Math.floor(minutosTotales / 60);
             let minutosStr = minutosTotales % 60;
+ 
     
             rutaRecorrida += `Hora: ${horaStr < 10 ? `0${horaStr}` : horaStr}:${minutosStr < 10 ? `0${minutosStr}` : minutosStr} En la base: ${rutaActual.nombre}\n `;
     
             minutosTotales += rutaActual.siguiente.tiempo;
             minutos = minutosTotales % 60; 
+            
+            rutaActual = rutaActual.siguiente;
+            if (rutaActual === this.primero) {
+              rutaActual = this.primero;
+            }
         }
     
         return rutaRecorrida;
