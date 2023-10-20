@@ -102,24 +102,53 @@ class Ruta {
             this.primero=nuevo;
           }
     }
-    creaRuta(){
-
-    }
+    crearRuta(baseInicio, horaInicio, horaFin) {
+        if (baseInicio == null || horaInicio < 0 || horaFin <= horaInicio) {
+          return "Parámetros inválidos";
+        }
+    
+        let rutaActual = this.buscar(baseInicio);
+        let horaActual = horaInicio;
+        let minutos = 0;
+        let rutaRecorrida = "";
+    
+        while (horaActual < horaFin || (horaActual == horaFin && minutos == 0)) {
+          let horaStr = horaActual < 10 ? `0${horaActual}` : horaActual;
+          let minutosStr = minutos < 10 ? `0${minutos}` : minutos;
+    
+          rutaRecorrida += `Hora: ${horaStr}:${minutosStr} - Base: ${rutaActual.nombre}\n `;
+    
+          minutos += rutaActual.siguiente.tiempo;
+          while (minutos >= 60) {   
+            horaActual++;
+            minutos -= 60;
+          }
+          rutaActual = rutaActual.siguiente;
+          if (rutaActual === this.primero) {
+            rutaActual = this.primero;
+          }
+        }
+    
+        return rutaRecorrida;
+      }
+    
 }
 // APLICACIóN
 
 let listaCir = new Ruta
-let nuevo = new Base("base1", 40)
+let nuevo = new Base(1, 40)
 listaCir.agregar(nuevo)
-nuevo = new Base("base2", 30)
+nuevo = new Base(2, 30)
 listaCir.agregar(nuevo)
-nuevo = new Base("base3", 50)
+nuevo = new Base(3, 50)
 listaCir.agregar(nuevo)
 
-nuevo=new Base("baseNuevo",35)
+nuevo=new Base(4,35)
 listaCir.agregarInicio(nuevo)
 
 console.log(listaCir.listar())
 console.log(listaCir.listarInverso())
 
-listaCir.buscar("base3")
+listaCir.buscar(3)
+
+console.log(listaCir.crearRuta(2, 5, 10));
