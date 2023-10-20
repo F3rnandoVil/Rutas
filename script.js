@@ -103,34 +103,25 @@ class Ruta {
           }
     }
     crearRuta(baseInicio, horaInicio, horaFin) {
-        if (baseInicio == null || horaInicio < 0 || horaFin <= horaInicio) {
-          return "Parámetros inválidos";
-        }
-    
         let rutaActual = this.buscar(baseInicio);
-        let horaActual = horaInicio;
-        let minutos = 0;
+
+        let minutosTotales = horaInicio * 60;
         let rutaRecorrida = "";
+        let minutos = 0;
     
-        while (horaActual < horaFin || (horaActual == horaFin && minutos == 0)) {
-          let horaStr = horaActual < 10 ? `0${horaActual}` : horaActual;
-          let minutosStr = minutos < 10 ? `0${minutos}` : minutos;
+        while (minutosTotales < horaFin * 60 || (minutosTotales === horaFin * 60 && minutos === 0)) {
+  
+            let horaStr = Math.floor(minutosTotales / 60);
+            let minutosStr = minutosTotales % 60;
     
-          rutaRecorrida += `Hora: ${horaStr}:${minutosStr} - Base: ${rutaActual.nombre}\n `;
+            rutaRecorrida += `Hora: ${horaStr < 10 ? `0${horaStr}` : horaStr}:${minutosStr < 10 ? `0${minutosStr}` : minutosStr} - Base: ${rutaActual.nombre}\n `;
     
-          minutos += rutaActual.siguiente.tiempo;
-          while (minutos >= 60) {   
-            horaActual++;
-            minutos -= 60;
-          }
-          rutaActual = rutaActual.siguiente;
-          if (rutaActual === this.primero) {
-            rutaActual = this.primero;
-          }
+            minutosTotales += rutaActual.siguiente.tiempo;
+            minutos = minutosTotales % 60; 
         }
     
         return rutaRecorrida;
-      }
+    }
     
 }
 // APLICACIóN
